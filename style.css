@@ -1,0 +1,277 @@
+/* =========================
+   BASE RESET
+========================= */
+body {
+  margin: 0;
+  font-family: 'Poppins', Segoe UI, Arial, sans-serif;
+  background: #f4efe6;
+  color: #2d2a26;
+}
+
+/* =========================
+   LAYOUT
+========================= */
+.container {
+  padding: 30px;
+  max-width: 1100px;
+  margin: auto;
+}
+
+.card {
+  background: white;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  margin-bottom: 20px;
+}
+
+/* =========================
+   HEADER (MAIN SYSTEM)
+========================= */
+header {
+  background: #4b3621;
+  color: #fff;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 6px rgba(0,0,0,.15);
+}
+
+header h2 {
+  margin: 0;
+  font-weight: 700;
+}
+
+nav a {
+  color: #fff;
+  margin: 0 10px;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: 0.2s;
+}
+
+nav a:hover {
+  background: #6b4f2e;
+}
+
+/* =========================
+   INPUTS
+========================= */
+input, select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+input:focus, select:focus {
+  border-color: #38bdf8;
+  box-shadow: 0 0 5px rgba(56,189,248,0.3);
+}
+
+/* =========================
+   BUTTONS (UNIFIED FIX)
+========================= */
+button,
+.btn-primary {
+  background: #38bdf8;
+  color: white;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+button:hover,
+.btn-primary:hover {
+  background: #0ea5e9;
+}
+
+.btn-secondary {
+  padding: 10px 14px;
+  background: #64748b;
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+}
+
+.btn-secondary:hover {
+  background: #475569;
+}
+
+/* =========================
+   TABLE
+========================= */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+}
+
+th {
+  background: #6b4f2e;
+  color: white;
+}
+
+tr:nth-child(even) {
+  background: #f9f6f1;
+}
+
+.styled-table tr:hover {
+  background: #f9fafb;
+}
+
+/* =========================
+   SEARCH
+========================= */
+.search-box {
+  margin-bottom: 15px;
+  display: flex;
+  gap: 10px;
+}
+
+/* =========================
+   BADGES
+========================= */
+.badge {
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+.badge.ok {
+  background: #e6f4ea;
+  color: #1e7e34;
+}
+
+.badge.warn {
+  background: #fdecea;
+  color: #b02a37;
+}
+
+/* =========================
+   LOGIN (NO CONFLICT FIXED)
+========================= */
+.login-wrapper {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+}
+
+.login-card {
+  width: 350px;
+  padding: 30px;
+  border-radius: 16px;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  color: white;
+  text-align: center;
+}
+
+.login-form {
+  margin-top: 20px;
+}
+
+.input-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.input-group label {
+  font-size: 13px;
+  color: #cbd5e1;
+}
+
+/* =========================
+   DASHBOARD
+========================= */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.stat-card {
+  text-align: center;
+  transition: 0.3s;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+}
+
+.stat-number {
+  font-size: 26px;
+  font-weight: 600;
+  color: #4b3621;
+}
+
+/* =========================
+   FORMS
+========================= */
+.form-card {
+  max-width: 500px;
+  margin: auto;
+}
+
+.styled-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-group label {
+  font-size: 13px;
+  margin-bottom: 5px;
+  color: #475569;
+}
+
+/* =========================
+   STATUS BOX
+========================= */
+.success-box {
+  margin-top: 15px;
+  padding: 10px;
+  background: #dcfce7;
+  color: #166534;
+  border-radius: 8px;
+  text-align: center;
+}
+
+/* =========================
+   TABLE HEADER
+========================= */
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.table-actions {
+  display: flex;
+  gap: 10px;
+}
+
+/* =========================
+   USER / ACTIONS
+========================= */
+.actions {
+  display: flex;
+  gap: 5px;
+}
