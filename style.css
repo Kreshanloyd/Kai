@@ -1,6 +1,10 @@
 /* =========================
    BASE RESET
 ========================= */
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   font-family: 'Poppins', Segoe UI, Arial, sans-serif;
@@ -9,7 +13,107 @@ body {
 }
 
 /* =========================
-   LAYOUT
+   LAYOUT SYSTEM (FINAL)
+========================= */
+.layout {
+  display: flex;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+.sidebar {
+  width: 240px;
+  height: 100vh;
+  background: #1e293b;
+  color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  transition: 0.3s;
+  overflow: hidden;
+}
+
+.sidebar-header {
+  font-size: 18px;
+  font-weight: bold;
+  padding: 15px;
+  text-align: center;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.sidebar-link {
+  display: block;
+  padding: 12px 20px;
+  color: #cbd5e1;
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+.sidebar-link:hover {
+  background: #334155;
+  color: white;
+}
+
+.sidebar-link.logout {
+  color: #f87171;
+}
+
+/* COLLAPSED SIDEBAR */
+.sidebar.collapsed {
+  width: 70px;
+}
+
+.sidebar.collapsed .sidebar-link {
+  text-align: center;
+  font-size: 18px;
+}
+
+.sidebar.collapsed .sidebar-header span {
+  display: none;
+}
+
+/* =========================
+   TOPBAR
+========================= */
+.topbar {
+  height: 60px;
+  background: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  position: fixed;
+  top: 0;
+  left: 240px;
+  width: calc(100% - 240px);
+  transition: 0.3s;
+  z-index: 10;
+}
+
+/* =========================
+   MAIN CONTENT
+========================= */
+.main-content {
+  margin-left: 240px;
+  margin-top: 70px;
+  padding: 20px;
+  transition: 0.3s;
+}
+
+/* COLLAPSED STATE */
+.sidebar.collapsed ~ .topbar {
+  left: 70px;
+  width: calc(100% - 70px);
+}
+
+.sidebar.collapsed ~ .main-content {
+  margin-left: 70px;
+}
+
+/* =========================
+   CARDS
 ========================= */
 .container {
   padding: 30px;
@@ -23,37 +127,11 @@ body {
   padding: 20px;
   box-shadow: 0 6px 18px rgba(0,0,0,0.08);
   margin-bottom: 20px;
+  transition: 0.25s ease;
 }
 
-/* =========================
-   HEADER (MAIN SYSTEM)
-========================= */
-header {
-  background: #4b3621;
-  color: #fff;
-  padding: 16px 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-shadow: 0 2px 6px rgba(0,0,0,.15);
-}
-
-header h2 {
-  margin: 0;
-  font-weight: 700;
-}
-
-nav a {
-  color: #fff;
-  margin: 0 10px;
-  text-decoration: none;
-  padding: 8px 12px;
-  border-radius: 8px;
-  transition: 0.2s;
-}
-
-nav a:hover {
-  background: #6b4f2e;
+.card:hover {
+  transform: translateY(-4px);
 }
 
 /* =========================
@@ -65,7 +143,6 @@ input, select {
   border: 1px solid #cbd5e1;
   border-radius: 8px;
   outline: none;
-  box-sizing: border-box;
 }
 
 input:focus, select:focus {
@@ -74,7 +151,7 @@ input:focus, select:focus {
 }
 
 /* =========================
-   BUTTONS (UNIFIED FIX)
+   BUTTONS
 ========================= */
 button,
 .btn-primary {
@@ -85,7 +162,6 @@ button,
   border-radius: 8px;
   cursor: pointer;
   text-decoration: none;
-  display: inline-block;
   font-weight: 500;
   transition: 0.2s;
 }
@@ -101,10 +177,6 @@ button:hover,
   color: white;
   border-radius: 8px;
   text-decoration: none;
-}
-
-.btn-secondary:hover {
-  background: #475569;
 }
 
 /* =========================
@@ -129,17 +201,8 @@ tr:nth-child(even) {
   background: #f9f6f1;
 }
 
-.styled-table tr:hover {
+tr:hover {
   background: #f9fafb;
-}
-
-/* =========================
-   SEARCH
-========================= */
-.search-box {
-  margin-bottom: 15px;
-  display: flex;
-  gap: 10px;
 }
 
 /* =========================
@@ -162,7 +225,34 @@ tr:nth-child(even) {
 }
 
 /* =========================
-   LOGIN (NO CONFLICT FIXED)
+   DASHBOARD
+========================= */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.stat-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.stat-icon {
+  font-size: 32px;
+  padding: 12px;
+  border-radius: 12px;
+  background: #f1f5f9;
+}
+
+.stat-number {
+  font-size: 26px;
+  font-weight: 600;
+}
+
+/* =========================
+   LOGIN
 ========================= */
 .login-wrapper {
   height: 100vh;
@@ -178,100 +268,6 @@ tr:nth-child(even) {
   border-radius: 16px;
   background: rgba(255,255,255,0.08);
   backdrop-filter: blur(12px);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
   color: white;
   text-align: center;
-}
-
-.login-form {
-  margin-top: 20px;
-}
-
-.input-group {
-  margin-bottom: 15px;
-  text-align: left;
-}
-
-.input-group label {
-  font-size: 13px;
-  color: #cbd5e1;
-}
-
-/* =========================
-   DASHBOARD
-========================= */
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
-}
-
-.stat-card {
-  text-align: center;
-  transition: 0.3s;
-}
-
-.stat-card:hover {
-  transform: translateY(-5px);
-}
-
-.stat-number {
-  font-size: 26px;
-  font-weight: 600;
-  color: #4b3621;
-}
-
-/* =========================
-   FORMS
-========================= */
-.form-card {
-  max-width: 500px;
-  margin: auto;
-}
-
-.styled-form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.form-group label {
-  font-size: 13px;
-  margin-bottom: 5px;
-  color: #475569;
-}
-
-/* =========================
-   STATUS BOX
-========================= */
-.success-box {
-  margin-top: 15px;
-  padding: 10px;
-  background: #dcfce7;
-  color: #166534;
-  border-radius: 8px;
-  text-align: center;
-}
-
-/* =========================
-   TABLE HEADER
-========================= */
-.table-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-.table-actions {
-  display: flex;
-  gap: 10px;
-}
-
-/* =========================
-   USER / ACTIONS
-========================= */
-.actions {
-  display: flex;
-  gap: 5px;
 }

@@ -1,4 +1,26 @@
-<?php include 'header.php'; ?>
+<?php
+session_start();
+include 'db.php';
+
+if(!isset($_SESSION['user'])){
+  header("Location: index.php");
+  exit();
+}
+
+include 'header.php';
+?>
+
+<?php
+// DELETE USER
+if (isset($_GET['delete'])) {
+  $id = $_GET['delete'];
+
+  $conn->query("DELETE FROM users WHERE id=$id");
+
+  header("Location: users.php");
+  exit();
+}
+?>
 
 <div class="container">
 
@@ -6,10 +28,11 @@
 
     <!-- Header -->
     <div class="table-header">
-      <h3>👥 User Management</h3>
+      <h3>👤 User Management</h3>
 
       <div class="table-actions">
         <input type="text" id="userSearch" placeholder="Search users...">
+        <a href="add_user.php" class="btn-primary">+ Add User</a>
       </div>
     </div>
 
@@ -20,28 +43,34 @@
           <th>ID</th>
           <th>Name</th>
           <th>Email</th>
+          <th>Actions</th>
         </tr>
       </thead>
 
       <tbody>
-        <tr>
-          <td>1</td>
-          <td>Max Verstappen</td>
-          <td>verstappen@gmail.com</td>
-        </tr>
+        <?php
+        $res = $conn->query("SELECT * FROM users");
 
+        while($user = $res->fetch_assoc()):
+        ?>
         <tr>
-          <td>2</td>
-          <td>Lewis Hamilton</td>
-          <td>hamilton@gmail.com</td>
-        </tr>
+          <td><?= $user['id'] ?></td>
+          <td><?= $user['name'] ?></td>
+          <td><?= $user['email'] ?></td>
 
-        <tr>
-          <td>3</td>
-          <td>Charles Leclerc</td>
-          <td>leclerc@gmail.com</td>
+          <td class="actions">
+            <a href="edit_user.php?id=<?= $user['id'] ?>" class="btn-edit">Edit</a>
+
+            <a href="users.php?delete=<?= $user['id'] ?>"
+               class="btn-delete"
+               onclick="return confirm('Delete this user?')">
+               Delete
+            </a>
+          </td>
         </tr>
+        <?php endwhile; ?>
       </tbody>
+
     </table>
 
   </div>
@@ -60,3 +89,5 @@ searchInput.addEventListener('keyup', function () {
   });
 });
 </script>
+
+<?php include 'footer.php'; ?>

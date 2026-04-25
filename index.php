@@ -1,80 +1,67 @@
-<?php 
+<?php
 session_start();
+include 'db.php';
 
-if(isset($_SESSION['user'])){
-  header("Location: dashboard.php");
-  exit();
-}
+$error = "";
 
-$error="";
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-if($_SERVER["REQUEST_METHOD"]=="POST"){
-  $u=trim($_POST['username']??"");
-  $p=trim($_POST['password']??"");
+  $email = $_POST['email'];
+  $password = $_POST['password'];
 
-  if($u==="admin" && $p==="1234"){
-    $_SESSION['user']=$u;
-    header("Location: dashboard.php");
-    exit();
-  }else{
-    $error="Invalid username or password";
+  $result = $conn->query("SELECT * FROM users WHERE email='$email'");
+
+  if ($result->num_rows > 0) {
+
+    $user = $result->fetch_assoc();
+
+    if ($password == $user['password']) {
+
+      $_SESSION['user'] = $user['name'];
+      $_SESSION['user_id'] = $user['id'];
+
+      header("Location: dashboard.php");
+      exit();
+
+    } else {
+      $error = "Invalid password";
+    }
+
+  } else {
+    $error = "User not found";
   }
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>BookNest Login</title>
-
-  <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-</head>
-
-<body>
+<link rel="stylesheet" href="style.css">
 
 <div class="login-wrapper">
 
   <div class="login-card">
 
-    <!-- Logo / Title -->
-    <div class="login-header">
-      <div class="login-icon">📚</div>
-      <h2>BookNest</h2>
-      <p>Library Management System</p>
-    </div>
+    <h2>📚 Library Login</h2>
+    <p>Access your system</p>
 
-    <!-- Form -->
     <form method="POST" class="login-form">
 
       <div class="input-group">
-        <label>Username</label>
-        <input type="text" name="username" placeholder="Enter your username" required>
+        <label>Email</label>
+        <input type="email" name="email" required>
       </div>
 
       <div class="input-group">
         <label>Password</label>
-        <input type="password" name="password" placeholder="Enter your password" required>
+        <input type="password" name="password" required>
       </div>
 
       <button type="submit" class="login-btn">Login</button>
 
     </form>
 
-    <!-- Error -->
     <?php if($error): ?>
-      <div class="error-box"><?php echo $error; ?></div>
+      <div class="error-box"><?= $error ?></div>
     <?php endif; ?>
-
-    <!-- Footer -->
-    <div class="login-footer">
-      <small>Demo: admin / 1234</small>
-    </div>
 
   </div>
 
 </div>
-
-</body>
-</html>

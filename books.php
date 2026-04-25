@@ -1,15 +1,24 @@
-<?php include 'header.php'; include 'books_data.php'; ?>
+<?php
+session_start();
+include 'db.php';
+
+if(!isset($_SESSION['user'])){
+  header("Location: index.php");
+  exit();
+}
+
+include 'header.php';
+?>
 
 <?php
+// DELETE BOOK
 if (isset($_GET['delete'])) {
-  foreach ($_SESSION['books'] as $i => $book) {
-    if ($book['id'] == $_GET['delete']) {
-      unset($_SESSION['books'][$i]);
-      $_SESSION['books'] = array_values($_SESSION['books']);
-      header("Location: books.php");
-      exit();
-    }
-  }
+  $id = $_GET['delete'];
+
+  $conn->query("DELETE FROM books WHERE id=$id");
+
+  header("Location: books.php");
+  exit();
 }
 ?>
 
@@ -40,7 +49,11 @@ if (isset($_GET['delete'])) {
       </thead>
 
       <tbody>
-        <?php foreach($_SESSION['books'] as $book): ?>
+        <?php
+        $result = $conn->query("SELECT * FROM books");
+
+        while($book = $result->fetch_assoc()):
+        ?>
           <tr>
             <td><?= $book['id'] ?></td>
             <td><?= $book['title'] ?></td>
@@ -56,6 +69,7 @@ if (isset($_GET['delete'])) {
 
             <td class="actions">
               <a href="edit_book.php?id=<?= $book['id'] ?>" class="btn-edit">Edit</a>
+
               <a href="books.php?delete=<?= $book['id'] ?>" 
                  class="btn-delete"
                  onclick="return confirm('Delete this book?')">
@@ -63,7 +77,7 @@ if (isset($_GET['delete'])) {
               </a>
             </td>
           </tr>
-        <?php endforeach; ?>
+        <?php endwhile; ?>
       </tbody>
 
     </table>
@@ -84,3 +98,5 @@ searchInput.addEventListener('keyup', function () {
   });
 });
 </script>
+
+<?php include 'footer.php'; ?>

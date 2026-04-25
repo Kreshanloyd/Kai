@@ -1,19 +1,43 @@
-<?php include 'header.php'; include 'books_data.php'; ?>
-
 <?php
+session_start();
+include 'db.php';
+
+if(!isset($_SESSION['user'])){
+  header("Location: index.php");
+  exit();
+}
+
+include 'header.php';
+
+$error = "";
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-  $new = [
-    "id" => $_SESSION['next_id']++,   // ✅ FIXED (no duplicates)
-    "title" => $_POST['title'],
-    "author" => $_POST['author'],
-    "status" => $_POST['status']
-  ];
+  // clean input
+  $title = trim($_POST['title']);
+  $author = trim($_POST['author']);
+  $status = $_POST['status'];
 
-  $_SESSION['books'][] = $new;
+  // validation
+  if ($title == "" || $author == "") {
+    $error = "All fields are required.";
+  } else {
 
-  header("Location: books.php");
-  exit();
+    // secure insert
+    $stmt = $conn->prepare("
+      INSERT INTO books (title, author, status) 
+      VALUES (?, ?, ?)
+    ");
+
+    $stmt->bind_param("sss", $title, $author, $status);
+
+    if ($stmt->execute()) {
+      header("Location: books.php");
+      exit();
+    } else {
+      $error = "Failed to save book.";
+    }
+  }
 }
 ?>
 
@@ -21,13 +45,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   <div class="card form-card">
 
-    <!-- Header -->
     <div class="form-header">
       <h3>➕ Add New Book</h3>
       <p>Fill in book details below</p>
     </div>
 
-    <!-- Form -->
+    <?php if($error): ?>
+      <div class="error-box"><?= $error ?></div>
+    <?php endif; ?>
+
     <form method="POST" class="styled-form">
 
       <div class="form-group">
@@ -43,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <div class="form-group">
         <label>Status</label>
         <select name="status" required>
-          <option value="Available" selected>Available</option>
+          <option value="Available">Available</option>
           <option value="Borrowed">Borrowed</option>
         </select>
       </div>
@@ -58,3 +84,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   </div>
 
 </div>
+
+<?php include 'footer.php'; ?>
