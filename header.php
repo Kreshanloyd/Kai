@@ -1,7 +1,4 @@
-<?php session_start(); ?>
-
 <link rel="stylesheet" href="style.css">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <div class="layout">
 
@@ -12,15 +9,23 @@
   <div class="main-wrapper">
 
     <!-- TOPBAR -->
-    <div class="topbar">
-      <button onclick="toggleSidebar()" class="menu-btn">☰</button>
+    <div class="topbar" id="topbar">
 
-      <h2>Library System</h2>
+      <div class="topbar-left">
+        <button onclick="toggleSidebar()" class="menu-btn">☰</button>
+        <span class="topbar-title">Library System</span>
+      </div>
 
       <div class="user-box">
-        👤 <?= $_SESSION['user'] ?? 'Guest' ?>
+        <?php
+          $name = $_SESSION['user'] ?? 'Guest';
+          $initial = strtoupper(substr($name, 0, 1));
+        ?>
+        <div class="user-avatar"><?= $initial ?></div>
+        <?= htmlspecialchars($name) ?>
       </div>
+
     </div>
 
     <!-- PAGE CONTENT START -->
-    <div class="main-content">
+    <div class="main-content" id="main-content">
